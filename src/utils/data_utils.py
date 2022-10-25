@@ -10,7 +10,7 @@ class Dataset:
     def __init__(self, dataset_name: str):
 
         dataset = "iris.data" if dataset_name == "Iris dataset" else "breast_cancer.data"
-        self._data = pd.read_csv(f"data/{dataset}", header = None, na_values='?')
+        self._data = pd.read_csv(f"src/data/{dataset}", header = None, na_values='?')
         self._dataset_name = dataset_name
         self._label_encoder = LabelEncoder()
 

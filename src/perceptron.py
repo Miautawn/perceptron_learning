@@ -26,9 +26,6 @@ class Perceptron:
         w_gradient = (y_true - prob) * -x # Loss function derivative with respect to whole weight vector
         self.w -= self.learning_rate * w_gradient
 
-    def _predict_class(self, prob: float):
-        return round(self.activation_function(prob))
-
     def fit(self, x_train: np.ndarray, y_train: np.ndarray, x_val: np.ndarray, y_val: np.ndarray) -> float:
         train_loss = 0
         train_acc = 0
@@ -41,7 +38,7 @@ class Perceptron:
             # update weights
             prob = self.predict_proba(x_train[i])
             train_loss += self._loss_function(y_train[i], prob)
-            y_train_pred.append(self._predict_class(prob))
+            y_train_pred.append(round(prob))
 
             self._update_weights(x_train[i], y_train[i], prob)
         train_acc = accuracy_score(y_train, y_train_pred)
@@ -51,18 +48,18 @@ class Perceptron:
         for i in range(x_val.shape[0]):
             prob = self.predict_proba(x_val[i])
             val_loss += self._loss_function(y_val[i], prob)
-            y_val_pred.append(self._predict_class(prob))
+            y_val_pred.append(round(prob))
 
         val_acc = accuracy_score(y_val, y_val_pred)  
 
         return (train_loss, train_acc, val_loss, val_acc)
 
     def predict(self, x: np.ndarray) -> int:
-        y_pred = self.predict_proba(x)
-        y_pred = self.activation_function(y_pred)
-        return round(y_pred)
+        prob = self.predict_proba(x)
+        return round(prob)
 
     def predict_proba(self, x: np.ndarray) -> float:
-        return np.dot(self.w, x)
+        a = np.dot(self.w, x)
+        return self.activation_function(a)
 
         

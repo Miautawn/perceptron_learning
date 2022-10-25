@@ -41,11 +41,15 @@ def main():
 
     for i in range(config_epoch_n):
         train_loss, train_acc, val_loss, val_acc = perceptron.fit(dataset.x_train, dataset.y_train, dataset.x_val, dataset.y_val)
+
+        print(f"Epoch {i + 1:<5} {'|':<5} train loss: {train_loss:<20} {'|':<5} val loss: {val_loss}")
+
         epoch_numbers.append(i + 1)
         train_losses.append(train_loss)
         train_accuracies.append(train_acc)
         val_losses.append(val_loss)
         val_accuracies.append(val_acc)
+        
 
     # calculating final train / val accuracy
     y_train_pred = [perceptron.predict(x) for x in dataset.x_train]
@@ -73,11 +77,15 @@ def main():
     plt.plot(epoch_numbers, train_losses, label = "train_loss")
     plt.plot(epoch_numbers, val_losses, label = "val_loss")
     plt.legend()
+    plt.xlabel("epochs")
+    plt.ylabel("Loss")
     plt.ylim(0, 20)
     plt.show()
 
     plt.plot(epoch_numbers, train_accuracies, label = "train_accuracy")
     plt.plot(epoch_numbers, val_accuracies, label = "val_accuracy")
+    plt.xlabel("epochs")
+    plt.ylabel("Accuracy")
     plt.legend()
     plt.show()
 
